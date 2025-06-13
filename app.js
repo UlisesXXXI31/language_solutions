@@ -22,8 +22,8 @@ const tituloActividad = document.getElementById("titulo-actividad");
 const puntosTexto = document.getElementById("puntos");
 const btnReiniciarPuntos = document.getElementById("btn-reiniciar-puntos");
 const btnVolverLecciones = document.getElementById("btn-volver-lecciones");
-const sonidoCorrcto = new Audio("/Language-Solutions/audio/correcto.mp3");
-const sonidoIncorrecto= new Audio("/Language-Solutions/audio/incorrecto.mp3");
+const sonidoCorrcto = new Audio("/language_solutions/audio/correcto.mp3");
+const sonidoIncorrecto= new Audio("/language_solutions/audio/incorrecto.mp3");
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js')
