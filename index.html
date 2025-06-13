@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Language Solutions</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <meta name="theme-color" content="#1976d2" />
+</head>
+<body>
+  <header>
+    <div id="pantalla-inicio" class="pantalla pantalla-activa">
+      <div style="text-align: center; padding: 2rem;">
+        <img src="image/EIS.jpg" alt="Language Solutions Logo" style="width: 120px; height: 120px;">
+        <h1 style="margin-top: 1rem;">Language Solutions</h1>
+        <p>Aprende Vocabulario de forma interactiva</p>
+        <button id="btn-iniciar">Iniciar</button>
+      </div>
+    </div>
+
+    <p id="puntos">Puntos totales: 0</p>
+    <button id="btn-reiniciar-puntos">Reiniciar puntos</button>
+  </header>
+
+  <!-- Pantalla: Selección de Lecciones -->
+  <section id="pantalla-lecciones" class="pantalla pantalla-oculta">
+    <h2>Selecciona una lección</h2>
+    <div id="lecciones-container" class="grid"></div>
+  </section>
+
+  <!-- Pantalla: Selección de Actividades -->
+  <section id="pantalla-actividades" class="pantalla pantalla-oculta">
+    <h2 id="titulo-leccion"></h2>
+    <h3>Selecciona una actividad</h3>
+    <div id="actividades-container" class="grid"></div>
+  </section>
+
+  <!-- Pantalla: Actividad -->
+  <section id="pantalla-actividad" class="pantalla pantalla-oculta">
+    <h2 id="titulo-actividad"></h2>
+    <div id="actividad-juego"></div>
+    <button id="btn-volver-lecciones" class="btn-volver">Volver a Lecciones</button>
+    <button class="btn-volver" id="btn-volver-actividades">Volver a actividades</button>
+    <div id="mensaje-feedback" style="font-weight:bold; text-align:center; margin-top:1rem;"></div>
+  </section>
+
+  <script src="palabras.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

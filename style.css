@@ -1,0 +1,137 @@
+/* Reset y base */
+
+   * {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0 1rem;
+  background: #f4f4f9;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+header {
+  width: 100%;
+  padding: 1rem 0;
+  background-color: #003366;
+  color: white;
+  text-align: center;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.2);
+}
+
+h1, h2, h3 {
+  margin: 0 0 1rem 0;
+}
+
+.pantalla-activa {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+}
+
+.pantalla-oculta {
+  display: none;
+}
+
+#lecciones-container,
+#actividades-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.leccion-btn, 
+.actividad-btn, 
+#btn-iniciar {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s;
+  min-width: 130px;
+  text-align: center;
+}
+
+.leccion-btn:hover, 
+.actividad-btn:hover, 
+#btn-iniciar:hover {
+  background-color: #0056b3;
+}
+
+#actividad-juego {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 0.1);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+#actividad-juego h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+#actividad-juego button {
+  margin: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+  min-width: 100px;
+  transition: background-color 0.3s;
+}
+
+#actividad-juego button:hover {
+  background-color: #218838;
+}
+
+#mensaje-feedback {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 1rem;
+  min-height: 1.5em;
+  color: #333;
+}
+
+.btn-volver {
+  background-color: #666;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 2rem;
+}
+
+.btn-volver:hover {
+  background-color: #444;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .leccion-btn, .actividad-btn {
+    min-width: 100%;
+  }
+
+  body {
+    padding: 0 0.5rem;
+  }
+}
