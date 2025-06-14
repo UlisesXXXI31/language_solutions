@@ -78,5 +78,76 @@ const datosLecciones = {
         { aleman: "der Vorschlag", espanol: "la propuesta" }
       ]
     }
+    ,
+    {
+      id: 3,
+      nombre: "leccion 3",
+      palabras: [
+        { aleman: "der Preis", espanol: "el premio " }
+      ]
+    },
+    {
+      id: 4,
+      nombre: "leccion 4",
+      palabras: [
+        { aleman: "das Geschirr", espanol: "la vajilla" }
+      ]
+    },
+    {
+      id: 5,
+      nombre: "leccion 5",
+      palabras: [
+        { aleman: "auf jeden Fall", espanol: "por supueto" }
+      ]
+    },
+    {
+      id: 6,
+      nombre: "leccion 6",
+      palabras: [
+        { aleman: "abgeben", espanol: "entregar" }
+      ]
+    },
+    {
+      id: 7,
+      nombre: "leccion 7",
+      palabras: [
+        { aleman: "das Erdgeschoss", espanol: "la planta baja" }
+      ]
+    },
+    {
+      id: 8,
+      nombre: "leccion 8",
+      palabras: [
+        { aleman: "das Gesicht", espanol: "la cara" }
+      ]
+    },
+    {
+      id: 9,
+      nombre: "leccion 9",
+      palabras: [
+        { aleman: "baden", espanol: "bañarse" }
+      ]
+    },
+    {
+      id: 10,
+      nombre: "leccion 10",
+      palabras: [
+        { aleman: "das Abitur", espanol: "la selectividad" }
+      ]
+    },
+    {
+      id: 11,
+      nombre: "leccion 11",
+      palabras: [
+        { aleman: "ankommen", espanol: "llegar" }
+      ]
+    },
+    {
+      id: 12,
+      nombre: "leccion 12",
+      palabras: [
+        { aleman: "der Beruf", espanol: "la profesión" }
+      ]
+    }
   ]
 };
