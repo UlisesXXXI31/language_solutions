@@ -249,7 +249,7 @@ function cargarBloqueEmparejar() {
 
     if (emparejarSeleccionados.length === 2) {
       // Verificar si son pareja correcta
-      let correcto = false;
+      let correcto = true;
 
       if (emparejarSeleccionados[0].tipo === "aleman") {
         // Buscar palabra que coincide con alemán
