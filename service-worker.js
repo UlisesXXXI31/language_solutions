@@ -1,12 +1,12 @@
 const CACHE_NAME = "deutschapp-cache-v1";
 const urlsToCache = [
-  "/Language-Solutions/",
-  "/Language-Solutions/index.html",
-  "/Language-Solutions/app.js",
-  "/Language-Solutions/style.css",
-  "/Language-Solutions/manifest.json",
-  "/Language-Solutions/icons/icon-192.png",
-  "/Language-Solutions/icons/icon-512.png"
+  "/",
+  "/index.html",
+  "/app.js",
+  "/style.css",
+  "/manifest.json",
+  "/icons/icon-192.png",
+  "/icons/icon-512.png"
 ];
 
 // Instalación
@@ -14,6 +14,7 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting(); // Activación inmediata
 });
 
 // Activación
@@ -27,11 +28,15 @@ self.addEventListener("activate", event => {
       )
     )
   );
+  self.clients.claim(); // Toma el control de las páginas inmediatamente
 });
 
-// Fetch
+// Intercepción de peticiones
 self.addEventListener("fetch", event => {
   event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
+    caches.match(event.request).then(response => {
+      // Devuelve desde caché si existe, o hace fetch normalmente
+      return response || fetch(event.request);
+    })
   );
 });
