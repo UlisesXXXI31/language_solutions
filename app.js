@@ -23,6 +23,11 @@ const puntosTexto = document.getElementById("puntos");
 const btnReiniciarPuntos = document.getElementById("btn-reiniciar-puntos");
 const btnVolverLecciones = document.getElementById("btn-volver-lecciones");
 const btnVolverActividades = document.getElementById("btn-volver-actividades");
+const pantallaListaPalabras = document.getElementById("pantalla-lista-palabras");
+const listaPalabrasContainer = document.getElementById("lista-palabras-container");
+const tituloListaLeccion = document.getElementById("titulo-lista-leccion");
+const btnIrActividades = document.getElementById("btn-ir-actividades");
+const btnVolverLista = document.getElementById("btn-volver-lista");
 const sonidoCorrcto = new Audio("/language_solutions/correcto.mp3");
 const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
@@ -30,6 +35,13 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js')
     .then(reg => console.log('Service Worker registrado con éxito:', reg))
     .catch(err => console.log('Error al registrar el Service Worker:', err));
+}
+// Mostrar/Ocultar pantallas
+function ocultarTodasLasPantallas() {
+  document.querySelectorAll(".pantalla").forEach(p => {
+    p.classList.add("pantalla-oculta");
+    p.classList.remove("pantalla-activa");
+  });
 }
 
 // Mostrar/Ocultar pantallas
@@ -63,9 +75,29 @@ function mostrarLecciones() {
 // Seleccionar lección
 function seleccionarLeccion(leccion) {
   leccionActual = leccion;
-  tituloLeccion.textContent = `Lección: ${leccion.nombre}`;
-  mostrarActividades();
-  mostrarPantalla("pantalla-actividades");
+  mostrarListaPalabras(leccion);
+}
+
+function mostrarListaPalabras(leccion) {
+  ocultarTodasLasPantallas();
+
+  pantallaListaPalabras.classList.remove("pantalla-oculta");
+  pantallaListaPalabras.classList.add("pantalla-activa");
+
+  leccionActual = leccion;
+  tituloListaLeccion.textContent = `Palabras de la lección: ${leccion.nombre}`;
+  listaPalabrasContainer.innerHTML = "";
+
+  const tabla = document.createElement("table");
+  tabla.innerHTML = "<thead><tr><th>Alemán</th><th>Español</th></tr></thead><tbody></tbody>";
+
+  leccion.palabras.forEach(par => {
+    const fila = document.createElement("tr");
+    fila.innerHTML = `<td>${par.aleman}</td><td>${par.espanol}</td>`;
+    tabla.querySelector("tbody").appendChild(fila);
+  });
+
+  listaPalabrasContainer.appendChild(tabla);
 }
 
 // Mostrar actividades
@@ -133,6 +165,16 @@ function iniciarActividad(idActividad) {
     iniciarEscuchar();
   }
 }
+btnIrActividades.addEventListener("click", () => {
+  mostrarPantalla("pantalla-actividades");
+  mostrarActividades();
+});
+
+btnVolverLista.addEventListener("click", () => {
+  mostrarPantalla("pantalla-lecciones");
+  mostrarLecciones();
+});
+
 
 /* === ACTIVIDAD TRADUCIR === */
 
