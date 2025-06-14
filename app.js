@@ -22,6 +22,7 @@ const tituloActividad = document.getElementById("titulo-actividad");
 const puntosTexto = document.getElementById("puntos");
 const btnReiniciarPuntos = document.getElementById("btn-reiniciar-puntos");
 const btnVolverLecciones = document.getElementById("btn-volver-lecciones");
+const btnVolverActividades = document.getElementById("btn-volver-actividades");
 const sonidoCorrcto = new Audio("/language_solutions/correcto.mp3");
 const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
@@ -98,6 +99,11 @@ btnReiniciarPuntos.addEventListener("click", () => {
 function actualizarPuntos() {
   puntosTexto.textContent = `Puntos totales: ${puntos}`;
 }
+//Botón volver a actividades
+btnVolverActividades.onclick = () => {
+    mostrarPantalla("pantalla-actividades");
+    actividadJuego.innerHTML = "";
+  };
 
 // Botón volver a lecciones
 btnVolverLecciones.addEventListener("click", () => {
