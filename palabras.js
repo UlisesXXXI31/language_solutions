@@ -68,7 +68,7 @@ const datosLecciones = {
         { aleman: "chaffen", espanol: "lograr" },
         { aleman: "anbieten/bot an/hat angeboten", espanol: "ofrecer" },
         { aleman: "bitten/bat/hat gebeten", espanol: "pedir" },
-        { aleman: "das Tachengeld", espanol: "la paga" }
+        { aleman: "das Taschengeld", espanol: "la paga" }
       ]
     },
     {
