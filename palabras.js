@@ -4,7 +4,7 @@ const datosLecciones = {
       id: 1,
       nombre: "leccion 1",
       palabras: [
-        { aleman: "aussehen(sah aus/hat ausgesehen)", espanol: "verse" },
+        { aleman: "aussehen, sah aus, hat ausgesehen", espanol: "verse" },
         { aleman: "die Größe", espanol: "la talla" },
         { aleman: "intelligent", espanol: "inteligente" },
         { aleman: "lieb", espanol: "amable" },
