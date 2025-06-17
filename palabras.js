@@ -77,6 +77,327 @@ const datosLecciones = {
       palabras: [
         { aleman: "der Vorschlag", espanol: "la propuesta" }
       ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "allein", espanol: "solo" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "draußen", espanol: "afuera" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "fallen, fiel, ist gefallen", espanol: "caer" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "fit sein", espanol: "estar en forma" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "gefährlich sein", espanol: "ser peligroso" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "gewinnen, gewann, hat gewonnen", espanol: "ganar" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "die Gruppe", espanol: "el grupo" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "die Halle", espanol: "el pabellón" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "möglich", espanol: "posible" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "spannend", espanol: "emocionante" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "überall", espanol: "en todas partes" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "der Verein", espanol: "el club" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "voebereiten, bereitete vor, hat vorbereitet", espanol: "preparar" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "anfangen, fing an, hat angefangen", espanol: "comenzar" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "sich anmelden, meldete sich an, hat sich angemeldet", espanol: "inscribirse" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "aufhören. hörte auf, hat aufgehört", espanol: "dejar de hacer algo" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "beginnen, begann, hat begonnen", espanol: "empezar" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "bekannt", espanol: "conocido/a" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "damals", espanol: "en aquella época" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "früher", espanol: "antiguamente" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "gerade", espanol: "en este momento" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "sich interessieren, interessierte sich, hat sich interessiert", espanol: "interesarse" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "der Kurs", espanol: "el curso" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "die maschine", espanol: "la máquina" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "mitgehen, geh mit, ist mitgegangen", espanol: "acompañar" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "mitspielen, spielte mit, hat mitgespielt", espanol: "jugar con" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "der Reifen", espanol: "el neumático" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "super", espanol: "super" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "teilnehmen, nahm teil, hat teilgenommen", espanol: "participar" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "trainieren, trainierte, hat trainiert", espanol: "entrenar" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "träumen von, träumte von, hat geträumt (von)", espanol: "soñar con" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "verletzt sein", espanol: "estar lesionado" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "vorsichtig sein", espanol: "ser precavido" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "der Wagen", espanol: "el coche" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "aufpassen, passte aUF, hat aufgepasst", espanol: "prestar atención" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "Lieblings-", espanol: "favorito" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "manchmal", espanol: "a veces" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "mehrere", espanol: "varios/as" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "zeigen. zeigte, hat gezeigt", espanol: "mostrar" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "vergessen, vergaß, hat vergessen", espanol: "olvidar" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "versuchen, versuchte, hat versucht", espanol: "intentar" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "Bescheid sagen", espanol: "informar" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "einverstanden sein", espanol: "estar de acuerdo" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "bestimmt", espanol: "seguro" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "das Fahrrad", espanol: "la bicicleta" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "das Geschenk", espanol: "el regalo" }
+      ]
+    },
+    {
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "der Platz", espanol: "la plaza" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "dauern", espanol: "durar" }
+      ]
+    },{
+      id: 2,
+      nombre: "leccion 2",
+      palabras: [
+        { aleman: "in der Nähe", espanol: "cerca" }
+      ]
     }
     ,
     {
