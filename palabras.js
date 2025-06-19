@@ -650,11 +650,49 @@ const datosLecciones = {
         
       ]
     },
-    {
+   {
       id: 11,
-      nombre: "leccion 11",
+      nombre: "leccion 11 ",
       palabras: [
-        { aleman: "ankommen", espanol: "llegar" }
+        { aleman: "ankommen, kam an, ist angekommen", espanol: "llegar" },
+        { aleman: "der Flughafen", espanol: "el aeropuerto" },
+        { aleman: "das Flugzeug", espanol: "el avión" },
+        { aleman: "das Gepäck", espanol: "el equipaje" },
+        { aleman: "halten, hielt, gehalten", espanol: "parar" },
+        { aleman: "das Schild", espanol: "el letrero" },
+        { aleman: "die Ankunft", espanol: "la llegaada" },
+        { aleman: "der Besuch", espanol: "la visita" },
+        { aleman: "die Sehenswürdigkeit", espanol: "el lugar de interés" },
+        { aleman: "der Zoo", espanol: "el zoo" },
+        { aleman: "der Eingang", espanol: "la entrada" },
+        { aleman: "Spanien liegt in Europa", espanol: "España está en Europa" },
+        { aleman: "der Tourist", espanol: "el turista" },
+        { aleman: "die Touristin", espanol: "la turista" },
+        { aleman: "das Zentrum", espanol: "el centro" },
+        { aleman: "besichtigen", espanol: "visitar" },
+        { aleman: "sicher, sicherer, am sichersten", espanol: "seguro" },
+        { aleman: "die Fahrkarte", espanol: "el billete" },
+        { aleman: "gültig, gültiger, am gültigsten", espanol: "válido" },
+        { aleman: "der Markt", espanol: "el mercado" },
+        { aleman: "der Kellner", espanol: "el camarero" },
+        { aleman: "die Kellnerin", espanol: "la camarera" },
+        { aleman: "die Grippe", espanol: "la gripe" },
+        { aleman: "wiederholen, wiederholte, hat wiederholt", espanol: "repetir" },
+        { aleman: "die Party", espanol: "la fiesta" },
+        { aleman: "sich bedanken, bedankte sich, hat sich bedankt", espanol: "agradecer" },
+        { aleman: "zurückfahre fuhr zurück, ist zurückgefahren", espanol: "volver" },
+        { aleman: "die Hauptstadt", espanol: "la capital" },
+        { aleman: "aufgeregt, aufgeregter, am aufgeregtesten", espanol: "emocionado, nervioso" },
+        { aleman: "das Ausland", espanol: "el país extranjero" },
+        { aleman: "außerhalb", espanol: "fuera de" },
+        { aleman: "innerhalb", espanol: "dentro de" },
+        { aleman: "fremd", espanol: "desconocido/a" },
+         { aleman: "die Hochzeit", espanol: "la boda" },
+        { aleman: "die kultur", espanol: "la cultura" },
+        { aleman: "österreichisch", espanol: "austriaco/a" },
+        { aleman: "schwierig, schwieriger, am schwierigsten", espanol: "difícil" },
+        { aleman: "vorher", espanol: "antes" }
+        
       ]
     },
     {
