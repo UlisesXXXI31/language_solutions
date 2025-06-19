@@ -610,11 +610,44 @@ const datosLecciones = {
         
       ]
     },
-    {
+   {
       id: 10,
-      nombre: "leccion 10",
+      nombre: "leccion 10 ",
       palabras: [
-        { aleman: "das Abitur", espanol: "la selectividad" }
+        { aleman: "das Abitur", espanol: "la selectividad" },
+        { aleman: "der Fehler", espanol: "el error" },
+        { aleman: "fleißig, fleißiger, am fleißigsten", espanol: "trabajador/a" },
+        { aleman: "pünktlich, pünktlicher, am pünklichsten", espanol: "puntual" },
+        { aleman: "rechnen, rechnete, hat gerechnet", espanol: "calcular" },
+        { aleman: "streng, strenger, am strengsten", espanol: "esctricto/a" },
+        { aleman: "der Stundenplan", espanol: "el horario" },
+        { aleman: "stören, störte, hat gestört", espanol: "molestar" },
+        { aleman: "der Feiertag", espanol: "el día festivo" },
+        { aleman: "sich freuen, freute sich, hat sich gefreut", espanol: "alegrarse" },
+        { aleman: "hoffentlich", espanol: "ojalá" },
+        { aleman: "die Mannschaft", espanol: "el equipo" },
+        { aleman: "schimpfen, schimpfte, hat geschimpft", espanol: "regañar" },
+        { aleman: "wahrscheinlich", espanol: "probablemente" },
+        { aleman: "wegnehmen, nahm weg, hat weggenommen", espanol: "quitar" },
+        { aleman: "wiederholen, wiederholte, hat wiederholt", espanol: "repetir" },
+        { aleman: "der Apparat", espanol: "el aparato" },
+        { aleman: "die Insel", espanol: "la isla" },
+        { aleman: "sich kümmern (um), kümmerte sich (um), hat sich (um) gekümmert", espanol: "cuidar de" },
+        { aleman: "langsam, langsamer, am langsamsten", espanol: "lento" },
+        { aleman: "das Medikament", espanol: "el medicamento" },
+        { aleman: "Medikamente nehmen", espanol: "tomar medicamentos" },
+        { aleman: "müde, müder, am müdesten", espanol: "estar de pie" },
+        { aleman: "der Schmerz", espanol: "el dolor" },
+        { aleman: "schwach, schwächer, am schwächsten", espanol: "débil" },
+        { aleman: "ein schwerer Unfall", espanol: "un accidente grave" },
+        { aleman: "umziehen, zog um, ist umgezogen", espanol: "mudarse" },
+        { aleman: "untersuchen, untersuchte, hat untersucht", espanol: "examinar" },
+        { aleman: "die Hilfe", espanol: "la ayuda" },
+        { aleman: "träumen (von), träumte (von), hat (von) geträumt", espanol: "soñar (con)" },
+        { aleman: "zuhören, hörte zu, hat zugehört", espanol: "escuchar con atención" },
+        { aleman: "kontrollieren, kontrollierte, hat kontrolliert", espanol: "controlar" },
+        { aleman: "der Blog", espanol: "el blog" }
+        
       ]
     },
     {
