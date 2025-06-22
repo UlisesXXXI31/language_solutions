@@ -5,6 +5,7 @@
  // Variables globales
 // Variables globales
 let puntos = 0;
+let puntosUltimaSesion = 0; 
 let leccionActual = null;
 let actividadActual = null;
 
@@ -28,6 +29,12 @@ const listaPalabrasContainer = document.getElementById("lista-palabras-container
 const tituloListaLeccion = document.getElementById("titulo-lista-leccion");
 const btnIrActividades = document.getElementById("btn-ir-actividades");
 const btnVolverLista = document.getElementById("btn-volver-lista");
+const listaHistorial = document.getElementById("lista-historial");
+const btnSalirHistorial = document.getElementById("btn-salir-historial");
+const pantallaHistorial = document.getElementById("pantalla-historial");
+const contenedorHistorial = document.getElementById("contenedor-historial");
+const btnVerHistorial = document.getElementById("btn-ver-historial");
+
 const sonidoCorrcto = new Audio("/language_solutions/correcto.mp3");
 const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
@@ -142,6 +149,63 @@ btnVolverLecciones.addEventListener("click", () => {
   mostrarPantalla("pantalla-lecciones");
   actividadJuego.innerHTML = "";
 });
+// Guardar puntuación en el historial (ya debes tener algo como esto cuando vuelve a lecciones)
+function guardarPuntuacionEnHistorial() {
+  const puntosSesion = puntos - puntosUltimaSesion;
+  if (puntosSesion <= 0) return;
+
+  const historial = JSON.parse(localStorage.getItem("historialPuntos")) || [];
+
+  historial.push({
+    fecha: new Date().toLocaleString(),
+    puntos: puntosSesion
+  });
+
+  localStorage.setItem("historialPuntos", JSON.stringify(historial));
+
+  puntosUltimaSesion = puntos; // muy importante para evitar duplicados
+}
+
+btnVolverLecciones.addEventListener("click", () => {
+  guardarPuntuacionEnHistorial();
+  guardarPuntuacion();
+  mostrarPantalla("pantalla-lecciones");
+  actividadJuego.innerHTML = "";
+});
+
+
+btnVerHistorial.addEventListener("click", () => {
+  mostrarHistorial();
+  mostrarPantalla("pantalla-historial");
+});
+
+btnSalirHistorial.addEventListener("click", () => {
+  mostrarPantalla("pantalla-lecciones");
+});
+
+
+// Mostrar historial
+function mostrarHistorial() {
+  const historialContainer = document.getElementById("historial-container");
+  historialContainer.innerHTML = "";
+
+  const historial = JSON.parse(localStorage.getItem("historialPuntos")) || [];
+
+  if (historial.length === 0) {
+    historialContainer.textContent = "No hay historial aún.";
+    return;
+  }
+
+  const lista = document.createElement("ul");
+
+  historial.forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = `${entry.fecha} — ${entry.puntos} puntos`;
+    lista.appendChild(li);
+  });
+
+  historialContainer.appendChild(lista);
+}
 
 // Iniciar actividad
 function iniciarActividad(idActividad) {
@@ -173,6 +237,11 @@ btnIrActividades.addEventListener("click", () => {
 btnVolverLista.addEventListener("click", () => {
   mostrarPantalla("pantalla-lecciones");
   mostrarLecciones();
+});
+
+new Date().toLocaleString("es-ES", {
+  timeZone: "Europe/Madrid",
+  hour12: false
 });
 
 
