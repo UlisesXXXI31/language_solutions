@@ -32,7 +32,7 @@ const btnVolverLista = document.getElementById("btn-volver-lista");
 const listaHistorial = document.getElementById("lista-historial");
 const btnSalirHistorial = document.getElementById("btn-salir-historial");
 const pantallaHistorial = document.getElementById("pantalla-historial");
-const contenedorHistorial = document.getElementById("contenedor-historial");
+const contenedorHistorial = document.getElementById("historial-container");
 const btnVerHistorial = document.getElementById("btn-ver-historial");
 
 const sonidoCorrcto = new Audio("/language_solutions/correcto.mp3");
