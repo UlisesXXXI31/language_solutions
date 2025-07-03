@@ -35,6 +35,11 @@ const pantallaHistorial = document.getElementById("pantalla-historial");
 const contenedorHistorial = document.getElementById("historial-container");
 const btnVerHistorial = document.getElementById("btn-ver-historial");
 
+const inputEmail = document.getElementById("input-email");
+const btnIniciar = document.getElementById("btn-iniciar");
+const mensajeErrorEmail = document.getElementById("mensaje-error-email");
+const dominioPermitido = "@europaschool.org";
+
 const sonidoCorrcto = new Audio("/language_solutions/correcto.mp3");
 const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
@@ -43,6 +48,58 @@ if ('serviceWorker' in navigator) {
     .then(reg => console.log('Service Worker registrado con éxito:', reg))
     .catch(err => console.log('Error al registrar el Service Worker:', err));
 }
+function validarEmail(email) {
+  return email.endsWith(dominioPermitido);
+}
+
+function actualizarEstadoBoton() {
+  const email = inputEmail.value.trim().toLowerCase();
+
+  if (email === "") {
+    mensajeErrorEmail.style.display = "none";
+    btnIniciar.disabled = true;
+    return;
+  }
+
+  if (!validarEmail(email)) {
+    mensajeErrorEmail.textContent = "Correo incorrecto: debe terminar en " + dominioPermitido;
+    mensajeErrorEmail.style.display = "block";
+    btnIniciar.disabled = true;
+  } else {
+    mensajeErrorEmail.style.display = "none";
+    btnIniciar.disabled = false;
+  }
+}
+
+// Escuchar cambios en el input para validar en tiempo real
+inputEmail.addEventListener("input", () => {
+  const email = inputEmail.value.trim().toLowerCase();
+  const esValido = email && email.endsWith(dominioPermitido);
+
+  btnIniciar.disabled = !esValido;
+
+  if (!esValido) {
+    mensajeErrorEmail.textContent = "Introduce un correo válido de la escuela (@europaschool.org).";
+    mensajeErrorEmail.style.display = "block";
+  } else {
+    mensajeErrorEmail.textContent = "";
+    mensajeErrorEmail.style.display = "none";
+  }
+});
+
+
+// Cuando se clickea el botón iniciar
+btnIniciar.addEventListener("click", () => {
+  const email = inputEmail.value.trim().toLowerCase();
+
+ if (email && email.endsWith(dominioPermitido)) {
+    localStorage.setItem("correoAlumno", email);
+    mostrarPantalla("pantalla-lecciones");
+    mostrarLecciones();
+  }
+  
+    
+});
 // Mostrar/Ocultar pantallas
 function ocultarTodasLasPantallas() {
   document.querySelectorAll(".pantalla").forEach(p => {
