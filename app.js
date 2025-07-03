@@ -212,15 +212,16 @@ function guardarPuntuacionEnHistorial() {
   if (puntosSesion <= 0) return;
 
   const historial = JSON.parse(localStorage.getItem("historialPuntos")) || [];
+  const correo = localStorage.getItem("correoAlumno") || "Sin correo";
 
   historial.push({
     fecha: new Date().toLocaleString(),
-    puntos: puntosSesion
+    puntos: puntosSesion,
+    correo: correo
   });
 
   localStorage.setItem("historialPuntos", JSON.stringify(historial));
-
-  puntosUltimaSesion = puntos; // muy importante para evitar duplicados
+  puntosUltimaSesion = puntos;
 }
 
 btnVolverLecciones.addEventListener("click", () => {
@@ -255,11 +256,11 @@ function mostrarHistorial() {
 
   const lista = document.createElement("ul");
 
-  historial.forEach(entry => {
-    const li = document.createElement("li");
-    li.textContent = `${entry.fecha} — ${entry.puntos} puntos`;
-    lista.appendChild(li);
-  });
+   historial.forEach(entry => {
+  const li = document.createElement("li");
+  li.textContent = `${entry.fecha} — ${entry.puntos} puntos — ${entry.correo}`;
+  lista.appendChild(li);
+});
 
   historialContainer.appendChild(lista);
 }
