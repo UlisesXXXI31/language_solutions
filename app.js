@@ -43,23 +43,21 @@ const dominioPermitido = "@europaschool.org";
 const sonidoCorrcto = new Audio("/language_solutions/correcto.mp3");
 const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
+document.addEventListener('DOMContentLoaded', () => {
+    const correoGuardado = localStorage.getItem('correoAlumno');
+    if (correoGuardado) {
+        inputEmail.value = correoGuardado;
+        btnIniciar.disabled = false;
+    }
+});
+
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js')
     .then(reg => console.log('Service Worker registrado con éxito:', reg))
     .catch(err => console.log('Error al registrar el Service Worker:', err));
 
- document.addEventListener("DOMContentLoaded", () => {
-  const emailGuardado = localStorage.getItem("correoAlumno");
 
-  if (emailGuardado) {
-    // Si ya hay un correo guardado, ir directamente a las lecciones
-    mostrarPantalla("pantalla-lecciones");
-    mostrarLecciones();
-  } else {
-    // Si no hay correo guardado, mostrar pantalla de inicio
-    mostrarPantalla("pantalla-inicio");
-  }
-});
 }
 function validarEmail(email) {
   return email.endsWith(dominioPermitido);
