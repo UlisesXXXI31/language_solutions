@@ -52,20 +52,6 @@ function validarEmail(email) {
   return email.endsWith(dominioPermitido);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const emailGuardado = localStorage.getItem("correoAlumno");
-
-  if (emailGuardado) {
-    // Si ya hay un correo guardado, ir directamente a las lecciones
-    mostrarPantalla("pantalla-lecciones");
-    mostrarLecciones();
-  } else {
-    // Si no hay correo guardado, mostrar pantalla de inicio
-    mostrarPantalla("pantalla-inicio");
-  }
-});
-
-
 function actualizarEstadoBoton() {
   const email = inputEmail.value.trim().toLowerCase();
 
@@ -84,6 +70,19 @@ function actualizarEstadoBoton() {
     btnIniciar.disabled = false;
   }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const emailGuardado = localStorage.getItem("correoAlumno");
+
+  if (emailGuardado) {
+    // Si ya hay un correo guardado, ir directamente a las lecciones
+    mostrarPantalla("pantalla-lecciones");
+    mostrarLecciones();
+  } else {
+    // Si no hay correo guardado, mostrar pantalla de inicio
+    mostrarPantalla("pantalla-inicio");
+  }
+});
 
 // Escuchar cambios en el input para validar en tiempo real
 inputEmail.addEventListener("input", () => {
