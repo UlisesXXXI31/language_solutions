@@ -184,7 +184,8 @@ function mostrarActividades() {
     { id: "traducir", nombre: "Traducir" },
     { id: "emparejar", nombre: "Emparejar" },
     { id: "eleccion-multiple", nombre: "Elección múltiple" },
-    { id: "escuchar", nombre: "Escuchar" }
+    { id: "escuchar", nombre: "Escuchar" },
+    { id: "pronunciacion", nombre: "Pronunciación" }
   ];
 
   actividades.forEach(act => {
@@ -228,6 +229,7 @@ function guardarPuntuacionEnHistorial() {
 
   historial.push({
     fecha: new Date().toLocaleString(),
+    leccion: leccionActual ? leccionActual.nombre : "Sin lección",
     puntos: puntosSesion,
     correo: correo
   });
@@ -270,7 +272,7 @@ function mostrarHistorial() {
 
    historial.forEach(entry => {
   const li = document.createElement("li");
-  li.textContent = `${entry.fecha} — ${entry.puntos} puntos — ${entry.correo}`;
+  li.textContent = `${entry.fecha} — ${entry.leccion || "Sin leccion"} — ${entry.puntos} puntos — ${entry.correo}`;
   lista.appendChild(li);
 });
 
@@ -297,6 +299,8 @@ function iniciarActividad(idActividad) {
     iniciarEleccionMultiple();
   }else if(idActividad==="escuchar") {
     iniciarEscuchar();
+  }else if (idActividad === "pronunciacion") {
+    iniciarPronunciar(leccionActual);
   }
 }
 btnIrActividades.addEventListener("click", () => {
@@ -643,7 +647,132 @@ function verificarEscuchar() {
     puntos = Math.max(0, puntos - 1);
     actualizarPuntos();
   }
+ 
+/*=== ACTIVIDAD PRONUNCIACIÓN === */
+
+// Estas variables deben ser accesibles por las funciones
+let palabrasPronunciacion;
+let indicePalabraActual;
+let contenedor = document.getElementById('actividad-juego'); // Asumiendo que 'contenedor' está definido fuera
+
+function iniciarPronunciar(leccionSeleccionada){
+    // 1. Obtenemos la lista de palabras de la lección
+    palabrasPronunciacion = leccionSeleccionada.palabras.map(p => p.aleman);
+    indicePalabraActual = 0;
+    // 2. Llamamos a la función que mostrará la primera palabra
+    mostrarPalabraPronunciacion();
 }
+
+function mostrarPalabraPronunciacion() {
+    if (indicePalabraActual >= palabrasPronunciacion.length) {
+        contenedor.innerHTML = '<p>¡Has completado todas las palabras!</p>';
+        return;
+    }
+
+    // --- CAMBIO CLAVE ---
+    // Obtenemos la palabra actual del array usando el índice
+    const palabraActual = palabrasPronunciacion[indicePalabraActual];
+
+    contenedor.innerHTML = `
+        <h3>Pronuncia esta palabra en alemán:</h3>
+               <p style="font-size: 24px; font-weight: bold;">${palabraActual}</p>
+        <button id="btn-escuchar-pronunciacion">Escuchar</button>
+        <button id="btn-pronunciar">Pronunciar</button>
+        <p id="feedback-pronunciacion"></p>
+    `;
+
+    // Pasamos la palabra correcta a las funciones de los eventos
+    document.getElementById('btn-escuchar-pronunciacion').addEventListener('click', () => {
+        reproducirPronunciacion(palabraActual);
+    });
+
+    document.getElementById('btn-pronunciar').addEventListener('click', () => {
+        iniciarReconocimientoVoz(palabraActual);
+    });
+}
+
+function reproducirPronunciacion(palabra) {
+    const utterance = new SpeechSynthesisUtterance(palabra);
+    utterance.lang = 'de-DE';
+    speechSynthesis.speak(utterance);
+}
+
+function iniciarReconocimientoVoz(palabraCorrecta) {
+    if (!('webkitSpeechRecognition' in window)) {
+        alert('Tu navegador no soporta reconocimiento de voz.');
+        return;
+    }
+
+    const reconocimiento = new webkitSpeechRecognition();
+    reconocimiento.lang = 'de-DE';
+    reconocimiento.interimResults = false;
+    reconocimiento.maxAlternatives = 1;
+
+    const feedbackEl = document.getElementById('feedback-pronunciacion');
+    feedbackEl.textContent = '🎙️ Escuchando...';
+    feedbackEl.style.color = 'black';
+
+    reconocimiento.start();
+
+    reconocimiento.onresult = (event) => {
+        // LIMPIEZA: Quita espacios y el punto final que el API suele añadir
+        const resultadoUsuario = event.results[0][0].transcript.trim().toLowerCase().replace(/\.$/, '');
+        const palabraObjetivo = palabraCorrecta.trim().toLowerCase();
+
+        console.log(`Usuario dijo: "${resultadoUsuario}" | Correcto es: "${palabraObjetivo}"`);
+
+        // CÁLCULO DE SIMILITUD
+        const similitud = calcularSimilitud(resultadoUsuario, palabraObjetivo);
+        const umbralAceptable = palabraObjetivo.length > 5 ? 2 : 1; // Umbral dinámico
+
+        if (similitud <= umbralAceptable) {
+            feedbackEl.textContent = '✅ ¡Correcto!';
+            feedbackEl.style.color = 'green';
+            sonidoCorrcto.play();
+            puntos++;
+            actualizarPuntos();
+            indicePalabraActual++;
+            setTimeout(mostrarPalabraPronunciacion, 2000);
+        } else {
+            feedbackEl.textContent = `❌ Incorrecto. Dijiste: "${resultadoUsuario}"`;
+            feedbackEl.style.color = 'red';
+            sonidoIncorrecto.play();
+            puntos = Math.max(0, puntos - 1);
+            actualizarPuntos();
+        }
+
+        setTimeout(() => {
+            indicePalabraActual++;
+            mostrarPalabraPronunciacion();
+        }, 2000);
+    };
+
+    reconocimiento.onerror = (event) => {
+        console.error('Error de reconocimiento:', event.error);
+        if (event.error === 'no-speech') {
+            feedbackEl.textContent = 'No se detectó ninguna voz. Inténtalo de nuevo.';
+        } else {
+            feedbackEl.textContent = 'Error al reconocer tu voz.';
+        }
+    };
+}
+
+// NO OLVIDES AÑADIR ESTA FUNCIÓN A TU SCRIPT
+function calcularSimilitud(a, b) {
+  if (a.length === 0) return b.length;
+  if (b.length === 0) return a.length;
+  const matrix = Array(b.length + 1).fill(null).map(() => Array(a.length + 1).fill(null));
+  for (let i = 0; i <= a.length; i++) { matrix[0][i] = i; }
+  for (let j = 0; j <= b.length; j++) { matrix[j][0] = j; }
+  for (let j = 1; j <= b.length; j++) {
+    for (let i = 1; i <= a.length; i++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      matrix[j][i] = Math.min(matrix[j][i - 1] + 1, matrix[j - 1][i] + 1, matrix[j - 1][i - 1] + cost);
+    }
+  }
+  return matrix[b.length][a.length];
+}
+
 
 
 
