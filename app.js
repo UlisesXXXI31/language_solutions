@@ -29,6 +29,7 @@ const listaPalabrasContainer = document.getElementById("lista-palabras-container
 const tituloListaLeccion = document.getElementById("titulo-lista-leccion");
 const btnIrActividades = document.getElementById("btn-ir-actividades");
 const btnVolverLista = document.getElementById("btn-volver-lista");
+
 const listaHistorial = document.getElementById("lista-historial");
 const btnSalirHistorial = document.getElementById("btn-salir-historial");
 const pantallaHistorial = document.getElementById("pantalla-historial");
@@ -40,9 +41,11 @@ const btnIniciar = document.getElementById("btn-iniciar");
 const mensajeErrorEmail = document.getElementById("mensaje-error-email");
 const dominioPermitido = "@europaschool.org";
 
+
 const sonidoCorrcto = new Audio("/language_solutions/correcto.mp3");
 const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
+ //al cargar la página el campo email ya esté rellenado:
 document.addEventListener('DOMContentLoaded', () => {
     const correoGuardado = localStorage.getItem('correoAlumno');
     if (correoGuardado) {
@@ -52,13 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js')
     .then(reg => console.log('Service Worker registrado con éxito:', reg))
     .catch(err => console.log('Error al registrar el Service Worker:', err));
-
-
 }
+
+
 function validarEmail(email) {
   return email.endsWith(dominioPermitido);
 }
@@ -81,7 +85,6 @@ function actualizarEstadoBoton() {
     btnIniciar.disabled = false;
   }
 }
-
 
 // Escuchar cambios en el input para validar en tiempo real
 inputEmail.addEventListener("input", () => {
@@ -112,6 +115,7 @@ btnIniciar.addEventListener("click", () => {
   
     
 });
+
 // Mostrar/Ocultar pantallas
 function ocultarTodasLasPantallas() {
   document.querySelectorAll(".pantalla").forEach(p => {
@@ -208,6 +212,9 @@ btnReiniciarPuntos.addEventListener("click", () => {
 function actualizarPuntos() {
   puntosTexto.textContent = `Puntos totales: ${puntos}`;
 }
+
+
+
 //Botón volver a actividades
 btnVolverActividades.onclick = () => {
     mostrarPantalla("pantalla-actividades");
@@ -237,6 +244,7 @@ function guardarPuntuacionEnHistorial() {
   localStorage.setItem("historialPuntos", JSON.stringify(historial));
   puntosUltimaSesion = puntos;
 }
+
 
 btnVolverLecciones.addEventListener("click", () => {
   guardarPuntuacionEnHistorial();
@@ -270,7 +278,7 @@ function mostrarHistorial() {
 
   const lista = document.createElement("ul");
 
-   historial.forEach(entry => {
+  historial.forEach(entry => {
   const li = document.createElement("li");
   li.textContent = `${entry.fecha} — ${entry.leccion || "Sin leccion"} — ${entry.puntos} puntos — ${entry.correo}`;
   lista.appendChild(li);
@@ -278,6 +286,7 @@ function mostrarHistorial() {
 
   historialContainer.appendChild(lista);
 }
+
 
 // Iniciar actividad
 function iniciarActividad(idActividad) {
@@ -647,7 +656,9 @@ function verificarEscuchar() {
     puntos = Math.max(0, puntos - 1);
     actualizarPuntos();
   }
- 
+}
+
+
 /*=== ACTIVIDAD PRONUNCIACIÓN === */
 
 // Estas variables deben ser accesibles por las funciones
@@ -772,8 +783,6 @@ function calcularSimilitud(a, b) {
   }
   return matrix[b.length][a.length];
 }
-
-
 
 
 const actividades = [
