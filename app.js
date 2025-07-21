@@ -407,7 +407,7 @@ function cargarBloqueEmparejar() {
   const espanolArr = bloquePalabras.map(p => p.espanol);
 
   // Mezclamos las opciones de español
-  const espanolMezclado = [...espanolArr].sort(() => Math.random() - 0.5);
+  const espanolMezclado = espanolArr.sort(() => Math.random() - 0.5);
 
   actividadJuego.innerHTML = `
     <p>Empareja las palabras en alemán con su traducción en español:</p>
@@ -420,21 +420,21 @@ function cargarBloqueEmparejar() {
   const contenedorEspanol = document.getElementById("palabras-espanol");
   const feedback = document.getElementById("mensaje-feedback");
 
-  // Mostrar palabras en alemán
   bloquePalabras.forEach(p => {
     const btnAlem = document.createElement("button");
     btnAlem.textContent = p.aleman;
     btnAlem.className = "btn-palabra";
     btnAlem.addEventListener("click", () => seleccionarEmparejar("aleman", btnAlem, p.aleman));
+
     contenedorAleman.appendChild(btnAlem);
   });
 
-  // Mostrar palabras en español mezcladas
   espanolMezclado.forEach(espanol => {
     const btnEsp = document.createElement("button");
     btnEsp.textContent = espanol;
     btnEsp.className = "btn-palabra";
     btnEsp.addEventListener("click", () => seleccionarEmparejar("espanol", btnEsp, espanol));
+
     contenedorEspanol.appendChild(btnEsp);
   });
 
@@ -449,30 +449,25 @@ function cargarBloqueEmparejar() {
 
     if (emparejarSeleccionados.length === 2) {
       // Verificar si son pareja correcta
-      let correcto = false;
       let palabraAleman, palabraEspanol;
 
-      // Identificar qué es alemán y qué es español
-      if (emparejarSeleccionados[0].tipo === "aleman") {
-        palabraAleman = emparejarSeleccionados[0].valor;
-        palabraEspanol = emparejarSeleccionados[1].valor;
-      } else {
-        palabraAleman = emparejarSeleccionados[1].valor;
-        palabraEspanol = emparejarSeleccionados[0].valor;
-      }
+if (emparejarSeleccionados[0].tipo === "aleman") {
+  palabraAleman = emparejarSeleccionados[0].valor;
+  palabraEspanol = emparejarSeleccionados[1].valor;
+} else {
+  palabraAleman = emparejarSeleccionados[1].valor;
+  palabraEspanol = emparejarSeleccionados[0].valor;
+}
 
-      // Verificar si existe este par en la lección
-      correcto = bloquePalabras.some(p => 
-        p.aleman === palabraAleman && p.espanol === palabraEspanol
-      );
+correcto = bloquePalabras.some(p => p.aleman === palabraAleman && p.espanol === palabraEspanol);
+
 
       if (correcto) {
-        puntos ++; // Dar más puntos por emparejar correctamente
+        puntos++;
         actualizarPuntos();
         feedback.textContent = "¡Correcto!";
         feedback.style.color = "green";
         sonidoCorrcto.play();
-        registrarActividadCompletada(leccionActual.id, 'emparejar');
 
         // Ocultar botones emparejados
         emparejarSeleccionados.forEach(s => {
@@ -480,28 +475,28 @@ function cargarBloqueEmparejar() {
           s.btn.disabled = true;
         });
 
-        // Eliminar el par correcto del array
-        const index = bloquePalabras.findIndex(p => 
-          p.aleman === palabraAleman && p.espanol === palabraEspanol
+        // Remover pares emparejados del bloque para no usarlos más
+        bloquePalabras.splice(
+          bloquePalabras.findIndex(p => p.aleman === emparejarSeleccionados.find(s => s.tipo === "aleman").valor),
+          1
         );
-        if (index !== -1) bloquePalabras.splice(index, 1);
 
-        // Verificar si se completó el bloque
+        // Revisar si bloque vacío (ya emparejadas todas)
         if (bloquePalabras.length === 0) {
           emparejarBloque++;
           if (emparejarBloque * BLOQUE_TAMANIO >= emparejarPalabras.length) {
-            feedback.textContent = "¡Has completado todas las parejas!";
-            setTimeout(() => {
-              actividadJuego.innerHTML = `<p>Actividad completada. ¡Buen trabajo!</p>`;
-            }, 1500);
+            actividadJuego.innerHTML = `<p>Has terminado la actividad Emparejar.</p>`;
           } else {
-            setTimeout(cargarBloqueEmparejar, 1000);
+            setTimeout(() => {
+              cargarBloqueEmparejar();
+              feedback.textContent = "";
+            }, 1000);
           }
         }
       } else {
         puntos = Math.max(0, puntos - 1);
         actualizarPuntos();
-        feedback.textContent = "¡Incorrecto!. Inténtalo de nuevo.";
+        feedback.textContent = "Incorrecto. Intenta de nuevo.";
         feedback.style.color = "red";
         sonidoIncorrecto.play();
 
@@ -513,6 +508,8 @@ function cargarBloqueEmparejar() {
           feedback.textContent = "";
         }, 1000);
       }
+
+      emparejarSeleccionados = [];
     }
   }
 }
