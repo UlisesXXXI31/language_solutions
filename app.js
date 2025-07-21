@@ -8,6 +8,12 @@ let puntos = 0;
 let puntosUltimaSesion = 0; 
 let leccionActual = null;
 let actividadActual = null;
+let nuevaEstrellaGanada = false;
+let nuevoTrofeoGanado = false;
+
+const progresoLecciones = JSON.parse(localStorage.getItem('progresoLecciones')) || {};
+const btnVolverLogros = document.getElementById("btn-volver-logros");
+const btnVolverMapa = document.getElementById("btn-volver-mapa");
 
 const pantallaInicio = document.getElementById("pantalla-inicio");
 const pantallaLecciones = document.getElementById("pantalla-lecciones");
@@ -327,6 +333,16 @@ new Date().toLocaleString("es-ES", {
   hour12: false
 });
 
+btnVolverLogros.addEventListener("click", () => {
+  mostrarPantalla("pantalla-lecciones");  
+  mostrarLecciones();
+});
+
+btnVolverMapa.addEventListener("click", () => {
+  mostrarPantalla("pantalla-lecciones");
+  mostrarLecciones();
+});
+
 
 /* === ACTIVIDAD TRADUCIR === */
 
@@ -370,6 +386,7 @@ function verificarTraducir() {
     traducirIndice++;
     actualizarPuntos();
     setTimeout(mostrarPalabraTraducir, 1000);
+   registrarActividadCompletada(leccionActual.id, 'traducir');
   } else {
     feedback.textContent = `Incorrecto. La respuesta correcta es: ${palabra.espanol}`;
     feedback.style.color = "red";
@@ -468,6 +485,7 @@ correcto = bloquePalabras.some(p => p.aleman === palabraAleman && p.espanol === 
         feedback.textContent = "¡Correcto!";
         feedback.style.color = "green";
         sonidoCorrcto.play();
+       registrarActividadCompletada(leccionActual.id, 'emparejar');
 
         // Ocultar botones emparejados
         emparejarSeleccionados.forEach(s => {
@@ -569,6 +587,7 @@ function mostrarPreguntaEleccion() {
         actualizarPuntos();
         eleccionIndice++;
         setTimeout(mostrarPreguntaEleccion, 1000);
+        registrarActividadCompletada(leccionActual.id, 'eleccion-multiple');
       } else {
         feedback.textContent = `Incorrecto. La respuesta correcta es: ${palabra.espanol}`;
         feedback.style.color = "red";
@@ -651,6 +670,7 @@ function verificarEscuchar() {
     escucharIndice++;
     actualizarPuntos();
     setTimeout(mostrarPalabraEscuchar, 1000);
+   registrarActividadCompletada(leccionActual.id, 'escuchar');
   } else {
     feedback.textContent = `Incorrecto. La palabra correcta es: ${palabra.aleman}`;
     feedback.style.color = "red";
@@ -746,6 +766,7 @@ function iniciarReconocimientoVoz(palabraCorrecta) {
             actualizarPuntos();
             indicePalabraActual++;
             setTimeout(mostrarPalabraPronunciacion, 2000);
+            registrarActividadCompletada(leccionActual.id, 'pronunciacion');
         } else {
             feedbackEl.textContent = `❌ Incorrecto. Dijiste: "${resultadoUsuario}"`;
             feedbackEl.style.color = 'red';
@@ -785,6 +806,148 @@ function calcularSimilitud(a, b) {
   }
   return matrix[b.length][a.length];
 }
+// Botones flotantes 
+function crearBotonesFlotantes() {
+  const btnMapa = document.createElement('button');
+  btnMapa.id = 'btn-mapa';
+  btnMapa.className = 'btn-mapa';
+  btnMapa.innerHTML = '🗺️';
+  btnMapa.title = 'Ver mapa de lecciones';
+  btnMapa.addEventListener('click', () => {
+    mostrarPantalla('pantalla-mapa');
+    dibujarMapa();
+  });
+  document.body.appendChild(btnMapa);
+
+  const btnLogros = document.createElement('button');
+  btnLogros.id = 'btn-logros';
+  btnLogros.className = 'btn-logros';
+  btnLogros.innerHTML = '🏆';
+  btnLogros.title = 'Ver tus logros';
+  btnLogros.addEventListener('click', () => {
+    mostrarPantalla('pantalla-logros');
+    mostrarLogros();
+    if (nuevaEstrellaGanada || nuevoTrofeoGanado) {
+      mostrarNotificacionLogro();
+      nuevaEstrellaGanada = false;
+      nuevoTrofeoGanado = false;
+    }
+  });
+  document.body.appendChild(btnLogros);
+}
+
+// Mostrar notificación de logro
+function mostrarNotificacionLogro() {
+  const notificacion = document.createElement('div');
+  notificacion.className = 'notificacion-logro';
+  notificacion.innerHTML = `
+    <div style="background: #4caf50; color: white; padding: 15px; border-radius: 5px; 
+                position: fixed; top: 20px; right: 20px; z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+      <h3>¡Nuevo logro desbloqueado!</h3>
+      <p>Revisa tus trofeos para ver lo que has conseguido</p>
+    </div>
+  `;
+  document.body.appendChild(notificacion);
+  
+  setTimeout(() => {
+    notificacion.remove();
+  }, 3000);
+}
+
+// Dibujar mapa de lecciones
+function dibujarMapa() {
+  const mapaContainer = document.getElementById('mapa-container');
+  mapaContainer.innerHTML = '';
+  
+  datosLecciones.lecciones.forEach(leccion => {
+    const leccionDiv = document.createElement('div');
+    leccionDiv.className = `leccion-mapa ${progresoLecciones[leccion.id]?.completada ? 'completada' : ''}`;
+    leccionDiv.innerHTML = `
+      <h3>${leccion.nombre}</h3>
+      <div class="estrellas-leccion">
+        ${Array(5).fill('').map((_, i) => 
+          `<span class="estrella">${i < (progresoLecciones[leccion.id]?.estrellas || 0) ? '★' : '☆'}</span>`
+        ).join('')}
+      </div>
+      ${progresoLecciones[leccion.id]?.completada ? '<p>¡Completada!</p>' : ''}
+    `; 
+    mapaContainer.appendChild(leccionDiv);
+  });
+}
+
+// Mostrar logros del usuario
+function mostrarLogros() {
+  const estrellasContainer = document.getElementById('estrellas-container');
+  const trofeosContainer = document.getElementById('trofeos-container');
+  
+  estrellasContainer.innerHTML = '';
+  trofeosContainer.innerHTML = '';
+  
+  // Mostrar estrellas por lección
+  datosLecciones.lecciones.forEach(leccion => {
+    const estrellas = progresoLecciones[leccion.id]?.estrellas || 0;
+    if (estrellas > 0) {
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <p><strong>${leccion.nombre}:</strong> ${estrellas} estrellas</p>
+        <div>${'★'.repeat(estrellas)}${'☆'.repeat(5 - estrellas)}</div>
+      `;
+      estrellasContainer.appendChild(div);
+    }
+  });
+  
+  // Mostrar trofeos completados
+  const leccionesCompletadas = datosLecciones.lecciones.filter(
+    leccion => progresoLecciones[leccion.id]?.completada
+  ).length;
+  
+  const totalLecciones = datosLecciones.lecciones.length;
+  
+  const trofeoDiv = document.createElement('div');
+  trofeoDiv.innerHTML = `
+    <div class="trofeo">
+      🏆
+      ${leccionesCompletadas === totalLecciones ? '<span class="logro-badge">1</span>' : ''}
+    </div>
+    <p>${leccionesCompletadas} de ${totalLecciones} lecciones completadas</p>
+    ${leccionesCompletadas === totalLecciones ? 
+      '<p>¡Has completado todas las lecciones!</p>' : 
+      '<p>Completa todas las lecciones para ganar el trofeo</p>'}
+  `;
+  trofeosContainer.appendChild(trofeoDiv);
+}
+
+// Modificar la función que guarda el progreso al completar actividades
+function registrarActividadCompletada(leccionId, actividadId) {
+  if (!progresoLecciones[leccionId]) {
+    progresoLecciones[leccionId] = { estrellas: 0, actividadesCompletadas: [], completada: false };
+  }
+  
+  // Si la actividad no estaba completada antes
+  if (!progresoLecciones[leccionId].actividadesCompletadas.includes(actividadId)) {
+    progresoLecciones[leccionId].actividadesCompletadas.push(actividadId);
+    progresoLecciones[leccionId].estrellas += 1;
+    puntos += 50; // 50 puntos extra por estrella
+    nuevaEstrellaGanada = true;
+    
+    // Verificar si se completaron todas las actividades de la lección
+    const actividadesLeccion = ['traducir', 'emparejar', 'eleccion-multiple', 'escuchar', 'pronunciacion'];
+    const todasCompletadas = actividadesLeccion.every(act => 
+      progresoLecciones[leccionId].actividadesCompletadas.includes(act)
+    );
+    
+    if (todasCompletadas && !progresoLecciones[leccionId].completada) {
+      progresoLecciones[leccionId].completada = true;
+      puntos += 200; // 200 puntos extra por trofeo
+      nuevoTrofeoGanado = true;
+    }
+    
+    localStorage.setItem('progresoLecciones', JSON.stringify(progresoLecciones));
+    actualizarPuntos();
+  }
+}
+
 
 
 const actividades = [
