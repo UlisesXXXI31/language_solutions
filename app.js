@@ -267,6 +267,7 @@ btnVerHistorial.addEventListener("click", () => {
 
 btnSalirHistorial.addEventListener("click", () => {
   mostrarPantalla("pantalla-lecciones");
+  mostrarLecciones();
 });
 
 
