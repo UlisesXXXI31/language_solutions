@@ -974,16 +974,7 @@ function registrarActividadCompletada(leccionId, actividadId) {
   }
 }
 
-// Añade esta llamada cuando se complete una actividad correctamente
-// Por ejemplo, en verificarTraducir():
-function verificarTraducir() {
-  // ... tu código existente ...
-  
-  if (respuesta === correcta) {
-    registrarActividadCompletada(leccionActual.id, 'traducir');
-    // ... resto del código ...
-  }
-}
+
 
 
 const actividades = [
