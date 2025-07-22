@@ -55,21 +55,6 @@ const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
 
 
-// INICIALIZACIÓN DEL PROGRESO (AÑADE ESTO)
-if (!localStorage.getItem('progresoLecciones')) {
-  const progresoInicial = {};
-  
-  // Inicializa todas las lecciones automáticamente
-  datosLecciones.lecciones.forEach((leccion, index) => {
-    progresoInicial[`leccion${index + 1}`] = { 
-      estrellas: 0, 
-      actividadesCompletadas: [], 
-      completada: false 
-    };
-  });
-
-  localStorage.setItem('progresoLecciones', JSON.stringify(progresoInicial));
-}
 
 
 //al cargar la página el campo email ya esté rellenado:
@@ -78,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (correoGuardado) {
         inputEmail.value = correoGuardado;
         btnIniciar.disabled = false;
+       crearBotonesFlotantes();
+       inicializarProgreso();
     }
 });
 
@@ -833,26 +820,38 @@ function calcularSimilitud(a, b) {
   }
   return matrix[b.length][a.length];
 }
-// Botones flotantes 
+// Función para inicializar el progreso si no existe
+function inicializarProgreso() {
+  datosLecciones.lecciones.forEach(leccion => {
+    if (!progresoLecciones[leccion.id]) {
+      progresoLecciones[leccion.id] = {
+        estrellas: 0,
+        actividadesCompletadas: [],
+        completada: false
+      };
+    }
+  });
+  localStorage.setItem('progresoLecciones', JSON.stringify(progresoLecciones));
+}
+
+// Crear botones flotantes
 function crearBotonesFlotantes() {
+  // Botón del mapa
   const btnMapa = document.createElement('button');
-  btnMapa.id = 'btn-mapa';
-  btnMapa.className = 'btn-mapa';
+  btnMapa.className = 'btn-flotante';
   btnMapa.innerHTML = '🗺️';
-  btnMapa.title = 'Ver mapa de lecciones';
+  btnMapa.title = 'Mapa de lecciones';
   btnMapa.addEventListener('click', () => {
     mostrarPantalla('pantalla-mapa');
     dibujarMapa();
   });
- // Llamar a la función cuando la app esté lista
-document.addEventListener("DOMContentLoaded", crearBotonesFlotantes);
   document.body.appendChild(btnMapa);
 
+  // Botón de logros
   const btnLogros = document.createElement('button');
-  btnLogros.id = 'btn-logros';
-  btnLogros.className = 'btn-logros';
+  btnLogros.className = 'btn-flotante btn-logros';
   btnLogros.innerHTML = '🏆';
-  btnLogros.title = 'Ver tus logros';
+  btnLogros.title = 'Mis logros';
   btnLogros.addEventListener('click', () => {
     mostrarPantalla('pantalla-logros');
     mostrarLogros();
@@ -865,47 +864,35 @@ document.addEventListener("DOMContentLoaded", crearBotonesFlotantes);
   document.body.appendChild(btnLogros);
 }
 
-// Mostrar notificación de logro
-function mostrarNotificacionLogro() {
-  const notificacion = document.createElement('div');
-  notificacion.className = 'notificacion-logro';
-  notificacion.innerHTML = `
-    <div style="background: #4caf50; color: white; padding: 15px; border-radius: 5px; 
-                position: fixed; top: 20px; right: 20px; z-index: 1000;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
-      <h3>¡Nuevo logro desbloqueado!</h3>
-      <p>Revisa tus trofeos para ver lo que has conseguido</p>
-    </div>
-  `;
-  document.body.appendChild(notificacion);
-  
-  setTimeout(() => {
-    notificacion.remove();
-  }, 3000);
-}
-
 // Dibujar mapa de lecciones
 function dibujarMapa() {
   const mapaContainer = document.getElementById('mapa-container');
   mapaContainer.innerHTML = '';
   
   datosLecciones.lecciones.forEach(leccion => {
+    const progreso = progresoLecciones[leccion.id] || {};
+    const estrellas = progreso.estrellas || 0;
+    
     const leccionDiv = document.createElement('div');
-    leccionDiv.className = `leccion-mapa ${progresoLecciones[leccion.id]?.completada ? 'completada' : ''}`;
+    leccionDiv.className = `leccion-mapa ${progreso.completada ? 'completada' : ''}`;
     leccionDiv.innerHTML = `
       <h3>${leccion.nombre}</h3>
       <div class="estrellas-leccion">
-        ${Array(5).fill('').map((_, i) => 
-          `<span class="estrella">${i < (progresoLecciones[leccion.id]?.estrellas || 0) ? '★' : '☆'}</span>`
-        ).join('')}
+        ${'★'.repeat(estrellas)}${'☆'.repeat(5 - estrellas)}
       </div>
-      ${progresoLecciones[leccion.id]?.completada ? '<p>¡Completada!</p>' : ''}
-    `; 
+      ${progreso.completada ? '<p>¡Completada!</p>' : ''}
+    `;
+    
+    leccionDiv.addEventListener('click', () => {
+      seleccionarLeccion(leccion);
+      mostrarPantalla('pantalla-actividades');
+    });
+    
     mapaContainer.appendChild(leccionDiv);
   });
 }
 
-// Mostrar logros del usuario
+// Mostrar logros
 function mostrarLogros() {
   const estrellasContainer = document.getElementById('estrellas-container');
   const trofeosContainer = document.getElementById('trofeos-container');
@@ -913,9 +900,9 @@ function mostrarLogros() {
   estrellasContainer.innerHTML = '';
   trofeosContainer.innerHTML = '';
   
-  // Mostrar estrellas por lección
+  // Estrellas por lección
   datosLecciones.lecciones.forEach(leccion => {
-    const estrellas = progresoLecciones[leccion.id]?.estrellas || 0;
+    const estrellas = (progresoLecciones[leccion.id]?.estrellas) || 0;
     if (estrellas > 0) {
       const div = document.createElement('div');
       div.innerHTML = `
@@ -926,49 +913,59 @@ function mostrarLogros() {
     }
   });
   
-  // Mostrar trofeos completados
+  // Trofeos
   const leccionesCompletadas = datosLecciones.lecciones.filter(
     leccion => progresoLecciones[leccion.id]?.completada
   ).length;
-  
-  const totalLecciones = datosLecciones.lecciones.length;
   
   const trofeoDiv = document.createElement('div');
   trofeoDiv.innerHTML = `
     <div class="trofeo">
       🏆
-      ${leccionesCompletadas === totalLecciones ? '<span class="logro-badge">1</span>' : ''}
+      ${leccionesCompletadas === datosLecciones.lecciones.length ? 
+        '<span class="logro-badge">1</span>' : ''}
     </div>
-    <p>${leccionesCompletadas} de ${totalLecciones} lecciones completadas</p>
-    ${leccionesCompletadas === totalLecciones ? 
-      '<p>¡Has completado todas las lecciones!</p>' : 
-      '<p>Completa todas las lecciones para ganar el trofeo</p>'}
+    <p>${leccionesCompletadas} de ${datosLecciones.lecciones.length} lecciones completadas</p>
   `;
   trofeosContainer.appendChild(trofeoDiv);
 }
 
-// Modificar la función que guarda el progreso al completar actividades
+// Notificación de logro
+function mostrarNotificacionLogro() {
+  const notificacion = document.createElement('div');
+  notificacion.className = 'notificacion-logro';
+  notificacion.innerHTML = `
+    <h3>¡Logro desbloqueado!</h3>
+    <p>Revisa tus recompensas</p>
+  `;
+  document.body.appendChild(notificacion);
+  
+  setTimeout(() => {
+    notificacion.remove();
+  }, 3000);
+}
+
+// Modificar esta función cuando se complete una actividad
 function registrarActividadCompletada(leccionId, actividadId) {
   if (!progresoLecciones[leccionId]) {
     progresoLecciones[leccionId] = { estrellas: 0, actividadesCompletadas: [], completada: false };
   }
   
-  // Si la actividad no estaba completada antes
   if (!progresoLecciones[leccionId].actividadesCompletadas.includes(actividadId)) {
     progresoLecciones[leccionId].actividadesCompletadas.push(actividadId);
     progresoLecciones[leccionId].estrellas += 1;
-    puntos += 50; // 50 puntos extra por estrella
+    puntos += 50;
     nuevaEstrellaGanada = true;
     
-    // Verificar si se completaron todas las actividades de la lección
-    const actividadesLeccion = ['traducir', 'emparejar', 'eleccion-multiple', 'escuchar', 'pronunciacion'];
-    const todasCompletadas = actividadesLeccion.every(act => 
+    // Verificar si se completó la lección
+    const actividades = ['traducir', 'emparejar', 'eleccion-multiple', 'escuchar', 'pronunciacion'];
+    const completada = actividades.every(act => 
       progresoLecciones[leccionId].actividadesCompletadas.includes(act)
     );
     
-    if (todasCompletadas && !progresoLecciones[leccionId].completada) {
+    if (completada && !progresoLecciones[leccionId].completada) {
       progresoLecciones[leccionId].completada = true;
-      puntos += 200; // 200 puntos extra por trofeo
+      puntos += 200;
       nuevoTrofeoGanado = true;
     }
     
@@ -977,6 +974,16 @@ function registrarActividadCompletada(leccionId, actividadId) {
   }
 }
 
+// Añade esta llamada cuando se complete una actividad correctamente
+// Por ejemplo, en verificarTraducir():
+function verificarTraducir() {
+  // ... tu código existente ...
+  
+  if (respuesta === correcta) {
+    registrarActividadCompletada(leccionActual.id, 'traducir');
+    // ... resto del código ...
+  }
+}
 
 
 const actividades = [
