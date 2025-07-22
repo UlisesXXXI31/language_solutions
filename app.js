@@ -684,7 +684,7 @@ function verificarEscuchar() {
     escucharIndice++;
     actualizarPuntos();
     setTimeout(mostrarPalabraEscuchar, 1000);
-   registrarActividadCompletada(leccionActual.id, 'escuchar');
+    registrarActividadCompletada(leccionActual.id, 'escuchar');
   } else {
     feedback.textContent = `Incorrecto. La palabra correcta es: ${palabra.aleman}`;
     feedback.style.color = "red";
@@ -693,6 +693,7 @@ function verificarEscuchar() {
     actualizarPuntos();
   }
 }
+
 
 
 /*=== ACTIVIDAD PRONUNCIACIÓN === */
