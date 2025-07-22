@@ -55,6 +55,21 @@ const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
 
 
+// INICIALIZACIÓN DEL PROGRESO (AÑADE ESTO)
+if (!localStorage.getItem('progresoLecciones')) {
+  const progresoInicial = {};
+  
+  // Inicializa todas las lecciones automáticamente
+  datosLecciones.lecciones.forEach((leccion, index) => {
+    progresoInicial[`leccion${index + 1}`] = { 
+      estrellas: 0, 
+      actividadesCompletadas: [], 
+      completada: false 
+    };
+  });
+
+  localStorage.setItem('progresoLecciones', JSON.stringify(progresoInicial));
+}
 
 
 //al cargar la página el campo email ya esté rellenado:
