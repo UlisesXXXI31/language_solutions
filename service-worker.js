@@ -2,40 +2,51 @@
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-const CACHE = "deutschapp-page";
+const CACHE_NAME = "deutschapp-page-v1";
 
-// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
-const offlineFallbackPage = "/offline.html";
+const OFFLINE_URL = "/language_solutions/offline.html"; // Asegúrate que este archivo exista y esté en esa ruta
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
-
-self.addEventListener('install', (event) => {
+self.addEventListener("install", event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll([
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll([
         OFFLINE_URL,
         '/language_solutions/index.html',
         '/language_solutions/style.css',
-        '/language_solutions/app.js'
-      ]).catch(err => {
-        console.error("Error al cachear:", err);
-      }))
+        '/language_solutions/app.js',
+        '/language_solutions/palabras.js',
+        '/language_solutions/EIS.jpg'
+      ]);
+    })
   );
   self.skipWaiting();
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener("activate", event => {
+  event.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('fetch', event => {
   if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request).catch(() => caches.match(OFFLINE_URL))
-    );
+    event.respondWith((async () => {
+      try {
+        const preloadResponse = await event.preloadResponse;
+        if (preloadResponse) {
+          return preloadResponse;
+        }
+        const networkResponse = await fetch(event.request);
+        return networkResponse;
+      } catch (error) {
+        const cache = await caches.open(CACHE_NAME);
+        const cachedResponse = await cache.match(OFFLINE_URL);
+        return cachedResponse;
+      }
+    })());
   } else {
     event.respondWith(
-      caches.match(event.request).then(res => res || fetch(event.request))
+      caches.match(event.request).then(response => {
+        return response || fetch(event.request);
+      })
     );
   }
 });
@@ -44,24 +55,3 @@ if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
 
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
-
-        if (preloadResp) {
-          return preloadResp;
-        }
-
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
-
-        const cache = await caches.open(CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage);
-        return cachedResp;
-      }
-    })());
-  }
-});
