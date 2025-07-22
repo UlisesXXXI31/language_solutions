@@ -18,5 +18,6 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "description": "Se trata de una aplicación web dirigida a alumnos que estudian alemán, para que puedan aprender vocabulario del nivel A2 de manera interactiva, a través de varias actividades."
 }
