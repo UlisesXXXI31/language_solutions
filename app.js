@@ -409,6 +409,7 @@ function verificarTraducir() {
     actualizarPuntos();
   }
 }
+
 /* === ACTIVIDAD EMPAREJAR === */
 
 let emparejarPalabras = [];
