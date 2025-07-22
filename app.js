@@ -829,6 +829,8 @@ function crearBotonesFlotantes() {
     mostrarPantalla('pantalla-mapa');
     dibujarMapa();
   });
+ // Llamar a la función cuando la app esté lista
+document.addEventListener("DOMContentLoaded", crearBotonesFlotantes);
   document.body.appendChild(btnMapa);
 
   const btnLogros = document.createElement('button');
