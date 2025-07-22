@@ -13,28 +13,31 @@ self.addEventListener("message", (event) => {
   }
 });
 
-self.addEventListener('install', async (event) => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE)
-      .then((cache) => cache.addAll([
-        offlineFallbackPage,
-        '/',
-        '/index.html',
-        '/app.js',
-        '/style.css',
-        '/manifest.json',
-        '/icon-192.png',
-        '/icon-512.png',
-        '/palabras.json',
-        '/service-worker.js',
-        '/offline.html',
-        '/EIS.jpg',
-        '/correcto.mp3',
-        '/incorrecto.mp3'
-
-        // Añade aquí todos los recursos que necesites cachear
-      ]))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll([
+        OFFLINE_URL,
+        '/language_solutions/index.html',
+        '/language_solutions/style.css',
+        '/language_solutions/app.js'
+      ]).catch(err => {
+        console.error("Error al cachear:", err);
+      }))
   );
+  self.skipWaiting();
+});
+
+self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match(OFFLINE_URL))
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(res => res || fetch(event.request))
+    );
+  }
 });
 
 if (workbox.navigationPreload.isSupported()) {
