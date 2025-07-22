@@ -53,28 +53,9 @@ const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
 
 
-// Registro del Service Worker (versión GitHub Pages)
-if ('serviceWorker' in navigator) {
-  const repoName = 'language_solutions'; // ¡NO cambiar este nombre!
-  const swUrl = `/${repoName}/service-worker.js`;
-  
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register(swUrl)
-      .then(reg => {
-        console.log('✅ Service Worker registrado en:', reg.scope);
-        // Verifica actualizaciones cada vez que se carga la página
-        reg.update().then(() => console.log('Buscando actualizaciones...'));
-      })
-      .catch(err => {
-        console.error('❌ Error al registrar:', err);
-        // Muestra feedback al usuario
-        const errorMsg = document.createElement('div');
-        errorMsg.style = 'position: fixed; top: 0; background: red; color: white; padding: 1rem;';
-        errorMsg.textContent = 'Error en funciones offline. Recarga la página.';
-        document.body.prepend(errorMsg);
-      });
-  });
-}
+
+
+
 
 //al cargar la página el campo email ya esté rellenado:
 document.addEventListener('DOMContentLoaded', () => {
@@ -85,6 +66,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Registro del Service Worker (versión GitHub Pages)
+// Registrar el Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('✅ Service Worker registrado con éxito');
+      })
+      .catch(err => {
+        console.log('❌ Fallo en el registro:', err);
+      });
+  });
+}
 
 function validarEmail(email) {
   return email.endsWith(dominioPermitido);
