@@ -145,6 +145,36 @@ th, td {
   padding: 0.5rem;
   text-align: left;
 }
+
+/* Botones flotantes */
+.btn-mapa, .btn-logros {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.btn-mapa {
+  bottom: 20px;
+  left: 20px;
+}
+
+.btn-logros {
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Efecto hover */
+.btn-mapa:hover, .btn-logros:hover {
+  transform: scale(1.1);
+}
 /* Estilos para el mapa y logros */
 .mapa-container {
   display: grid;
