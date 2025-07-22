@@ -51,15 +51,6 @@ const dominioPermitido = "@europaschool.org";
 const sonidoCorrcto = new Audio("/language_solutions/correcto.mp3");
 const sonidoIncorrecto= new Audio("/language_solutions/incorrecto.mp3");
 
- //al cargar la página el campo email ya esté rellenado:
-document.addEventListener('DOMContentLoaded', () => {
-    const correoGuardado = localStorage.getItem('correoAlumno');
-    if (correoGuardado) {
-        inputEmail.value = correoGuardado;
-        btnIniciar.disabled = false;
-    }
-});
-
 
 
 if ('serviceWorker' in navigator) {
@@ -67,6 +58,15 @@ if ('serviceWorker' in navigator) {
     .then(reg => console.log('Service Worker registrado con éxito:', reg))
     .catch(err => console.log('Error al registrar el Service Worker:', err));
 }
+
+//al cargar la página el campo email ya esté rellenado:
+document.addEventListener('DOMContentLoaded', () => {
+    const correoGuardado = localStorage.getItem('correoAlumno');
+    if (correoGuardado) {
+        inputEmail.value = correoGuardado;
+        btnIniciar.disabled = false;
+    }
+});
 
 
 function validarEmail(email) {
