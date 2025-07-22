@@ -381,35 +381,56 @@ function mostrarPalabraTraducir() {
     <div id="mensaje-feedback" style="margin-top: 1rem;"></div>
     <button id="btn-verificar">Verificar</button>
   `;
-  document.getElementById("btn-verificar").addEventListener("click", verificarTraducir);
-  document.getElementById("input-traducir").focus();
+  
+  // Añadir event listener después de que el DOM se haya actualizado
+  setTimeout(() => {
+    const verificarBtn = document.getElementById("btn-verificar");
+    if (verificarBtn) {
+      verificarBtn.addEventListener("click", verificarTraducir);
+    }
+    
+    // Permitir verificar con Enter
+    const input = document.getElementById("input-traducir");
+    if (input) {
+      input.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          verificarTraducir();
+        }
+      });
+    }
+  }, 0);
+  
+  document.getElementById("input-traducir")?.focus();
 }
 
 function verificarTraducir() {
   const input = document.getElementById("input-traducir");
   const feedback = document.getElementById("mensaje-feedback");
   const palabra = traducirPalabras[traducirIndice];
-  const respuesta = input.value.trim().toLowerCase();
-  const correcta = palabra.espanol.toLowerCase();
+  const respuesta = input?.value.trim().toLowerCase();
+  const correcta = palabra?.espanol.toLowerCase();
+
+  if (!palabra || !respuesta) return;
 
   if (respuesta === correcta) {
     feedback.textContent = "¡Correcto!";
     feedback.style.color = "green";
-    sonidoCorrcto.play();
+    if (sonidoCorrcto) sonidoCorrcto.play();
     puntos++;
     traducirIndice++;
     actualizarPuntos();
     setTimeout(mostrarPalabraTraducir, 1000);
-   registrarActividadCompletada(leccionActual.id, 'traducir');
+    if (leccionActual?.id) {
+      registrarActividadCompletada(leccionActual.id, 'traducir');
+    }
   } else {
     feedback.textContent = `Incorrecto. La respuesta correcta es: ${palabra.espanol}`;
     feedback.style.color = "red";
-    sonidoIncorrecto.play();
+    if (sonidoIncorrecto) sonidoIncorrecto.play();
     puntos = Math.max(0, puntos - 1);
     actualizarPuntos();
   }
 }
-
 /* === ACTIVIDAD EMPAREJAR === */
 
 let emparejarPalabras = [];
