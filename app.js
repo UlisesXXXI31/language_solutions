@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Registro del Service Worker (versión GitHub Pages)
 // Registrar el Service Worker
-/*if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
       .then(registration => {
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('❌ Fallo en el registro:', err);
       });
   });
-}*/
+}
 
 function validarEmail(email) {
   return email.endsWith(dominioPermitido);
