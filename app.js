@@ -674,7 +674,7 @@ function verificarEscuchar() {
   const feedback = document.getElementById("mensaje-feedback");
   const palabra = escucharPalabras[escucharIndice];
   const respuesta = input.value.trim().toLowerCase();
-  const correcta = palabra.espanol.toLowerCase();
+  const correcta = palabra.aleman.toLowerCase();
 
   if (respuesta === correcta) {
     feedback.textContent = "¡Correcto!";
